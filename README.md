@@ -66,6 +66,38 @@ Após uma instalação bem-sucedida, versione o `apm.lock.yaml`. O APM distribui
 ```
 apm compile --target agents,gemini --clean
 ```
+---
+## APM Como instalar no mac
+```
+brew install microsoft/apm/apm
+
+No Linux ou para instalação manual, baixe o pacote da arquitetura em microsoft/apm Releases, extraia-o e adicione o executável  apm  ao  PATH .
+
+Depois confirme:
+
+apm --version
+```
+
+
+
+## APM Como instalar no windows
+```
+No Windows (x64), no PowerShell:
+
+Invoke-WebRequest `
+  -Uri "https://github.com/microsoft/apm/releases/download/v0.28.0/apm-windows-x86_64.zip" `
+  -OutFile "$env:TEMP\apm.zip"
+
+Expand-Archive "$env:TEMP\apm.zip" -DestinationPath "C:\Tools\apm" -Force
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Tools\apm", "User")
+
+Feche e reabra o terminal, depois confirme:
+
+apm --version
+```
+
+
+---
 
 Este apm segue o formato da **APM CLI**, para ser instalado por qualquer squad da empresa independentemente da CLI de IA utilizada.
 
