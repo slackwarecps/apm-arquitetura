@@ -94,6 +94,17 @@ Expand-Archive "$env:TEMP\apm.zip" -DestinationPath "C:\Tools\apm" -Force
 Feche e reabra o terminal, depois confirme:
 
 apm --version
+
+outras opcoes sao: 
+# Scoop
+scoop bucket add apm https://github.com/microsoft/scoop-apm
+scoop install apm
+
+ou via Python/pip:
+
+pip install apm-cli
+
+
 ```
 
 

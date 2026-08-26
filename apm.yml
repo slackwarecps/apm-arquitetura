@@ -1,5 +1,5 @@
 name: apm-arquitetura
-version: 1.3.4
+version: 1.3.5
 description: Contexto, regras de arquitetura e ADR da vertical Arquitetura da FabaoCorp para todos os agentes de IA da empresa (multi-CLI)
 author: Arquitetura Fabao-Corp
 
