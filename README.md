@@ -27,7 +27,7 @@ Este projeto não é uma aplicação de negócio: é um pacote de referência e 
 
 ## Distribuição do MCP remoto
 
-O `apm.yml` distribui a configuração do MCP `meu-mcp-remoto` para Claude, Codex, Gemini e Copilot. A configuração atual usa transporte SSE e o endpoint `http://192.168.1.100:3030/sse`.
+O `apm.yml` distribui a configuração do MCP `meu-mcp-remoto` para Claude, Codex, Gemini e Copilot. A configuração atual usa transporte HTTP (streamable) e o endpoint `http://192.168.1.100:3030/mcp`.
 
 Esse endereço é privado e usa HTTP: os clientes precisam estar na mesma rede ou conectados à VPN que alcança a VPS. Para acesso pela internet, publique o serviço atrás de um domínio com HTTPS, mantenha o transporte compatível com o servidor e atualize o `url` no `apm.yml`.
 
