@@ -1,0 +1,17 @@
+name: apm-arquitetura
+version: 0.2.0
+description: Contexto, regras de arquitetura e ADR da vertical Arquitetura da FabaoCorp para todos os agentes de IA da empresa (multi-CLI)
+author: Arquitetura Fabao-Corp
+
+# Instruções que TODOS os agentes da empresa vão herdar
+custom_instructions:
+  - "Backends e BFFs sao Java Spring Boot; frontend web e Angular; mobile e Android/iOS nativos."
+  - "Comunicacao sincrona (REST/gRPC) so quando necessario; preferir eventos para fluxos assincronos entre squads/microsservicos."
+  - "Contratos de API: versionamento explicito, compatibilidade retroativa, OpenAPI/AsyncAPI publicado."
+  - "Resiliencia: timeout, retry com backoff, circuit breaker em chamadas entre servicos (Spring Boot: Resilience4j)."
+  - "Observabilidade: logs estruturados, tracing distribuido, metricas minimas (latencia, erro, saturacao) em todo novo endpoint."
+  - "Front/Mobile consomem sempre o BFF, nunca o backend diretamente; tratamento de erro e estados de loading padronizados."
+
+# Aqui definimos as Skills / Comandos do pacote
+scripts:
+  scan-adr-gaps: "grep -rLE '^# ADR' docs/adr 2>/dev/null || echo 'nenhum ADR encontrado em docs/adr'"

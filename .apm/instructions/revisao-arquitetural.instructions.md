@@ -1,13 +1,11 @@
 ---
-name: revisao-arquitetural
-description: Revisa mudancas de codigo ou desenho tecnico em backends/BFFs Java Spring Boot, frontends Angular e apps mobile (Android/iOS) contra os principios de arquitetura da FabaoCorp (acoplamento entre servicos, contratos de API, resiliencia, observabilidade). Use quando o usuario pedir revisao arquitetural, avaliacao de design tecnico ou "isso segue os padroes de arquitetura?".
+description: "Checklist de revisao arquitetural da FabaoCorp (acoplamento, contratos de API, resiliencia, observabilidade, seguranca)"
+applyTo: "**/*.java,**/*.ts,**/*.kt,**/*.swift"
 ---
 
 # Revisao Arquitetural FabaoCorp
 
-Use esta skill para avaliar decisoes de design tecnico nas verticais da FabaoCorp (Banking, Seguros, Financeiro, Arquitetura).
-
-## Checklist
+Avalie decisoes de design tecnico nas verticais da FabaoCorp (Banking, Seguros, Financeiro, Arquitetura) contra este checklist:
 
 1. **Acoplamento entre servicos**: comunicacao sincrona (REST/gRPC) so quando necessario; preferir eventos para fluxos assincronos entre squads/microsservicos.
 2. **Contratos de API**: versionamento explicito, compatibilidade retroativa, OpenAPI/AsyncAPI publicado.

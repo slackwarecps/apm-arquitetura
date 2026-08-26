@@ -1,11 +1,11 @@
 ---
-name: adr
-description: Cria ou atualiza um Architecture Decision Record (ADR) no formato padrao da FabaoCorp para registrar decisoes tecnicas relevantes de um projeto/squad. Use quando o usuario pedir para "documentar uma decisao de arquitetura", "criar um ADR" ou similar.
+description: "Formato padrao de Architecture Decision Record (ADR) da FabaoCorp"
+applyTo: "docs/adr/**"
 ---
 
 # ADR - FabaoCorp
 
-Gere o ADR em Markdown com estas secoes, nesta ordem:
+Ao criar ou atualizar um ADR, gere o Markdown com estas secoes, nesta ordem:
 
 ```
 # ADR NNNN: <titulo curto da decisao>
