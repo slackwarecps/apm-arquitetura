@@ -27,17 +27,18 @@ Este projeto não é uma aplicação de negócio: é um pacote de referência e 
 
 ## Distribuição dos MCPs remotos
 
-O `apm.yml` distribui a configuração de dois MCPs remotos para Claude, Codex, Gemini e Copilot, ambos via transporte HTTP (streamable):
+O `apm.yml` distribui a configuração de três MCPs remotos para Claude, Codex, Gemini e Copilot, todos via transporte HTTP (streamable):
 
 - **`mcp-fabaolocalsvr`** — hospedado na rede privada/VPS da FabaoCorp, endpoint `http://192.168.1.100:3030/mcp`. Esse endereço é privado e usa HTTP: os clientes precisam estar na mesma rede ou conectados à VPN que alcança a VPS. Para acesso pela internet, publique o serviço atrás de um domínio com HTTPS, mantenha o transporte compatível com o servidor e atualize o `url` no `apm.yml`.
 - **`mcp-bank123`** — MCP de backoffice do Bank123, hospedado no Zuplo, endpoint `https://bank123-mcp-backoffice-main-cc44a8d.d2.zuplo.dev/mcp`. Endereço público em HTTPS.
+- **`mcp-spider-man`** — mesmo endpoint e token do `mcp-bank123` (`https://bank123-mcp-backoffice-main-cc44a8d.d2.zuplo.dev/mcp`, autenticado via `BANK123_TOKEN`). Endereço público em HTTPS.
 
 ### Pré-requisito: obter e configurar os tokens
 
 Antes de instalar, obtenha os tokens de cada MCP com o responsável correspondente. Ambos são obrigatórios para os respectivos servidores aceitarem as requisições autenticadas — sem eles, os clientes não conseguirão se conectar:
 
 - `MCP_SERVER_TOKEN` — token do `mcp-fabaolocalsvr`, obtido com o responsável pela configuração do MCP na VPS.
-- `BANK123_TOKEN` — token do `mcp-bank123`, obtido com o responsável pelo backoffice do Bank123.
+- `BANK123_TOKEN` — token do `mcp-bank123`, obtido com o responsável pelo backoffice do Bank123. Reutilizado também pelo `mcp-spider-man` (mesmo endpoint), sem variável separada.
 
 Nenhum dos dois deve ser colocado diretamente no `apm.yml`, commitado ou compartilhado em logs. Disponibilize-os apenas no ambiente onde o APM será executado:
 
@@ -56,6 +57,18 @@ MCP_SERVER_TOKEN='seu-token' BANK123_TOKEN='seu-token' apm install --dry-run
 ```
 
 Após uma instalação bem-sucedida, versione o `apm.lock.yaml`. O APM distribuirá a configuração nos arquivos nativos de cada cliente; ele não gerencia o processo dos MCPs, o proxy reverso, o TLS ou o firewall dos servidores. Consulte o [guia oficial de instalação de servidores MCP](https://microsoft.github.io/apm/guides/mcp-servers/) para detalhes sobre transportes, targets e credenciais.
+
+### ⚠️ Limitação conhecida: `--target copilot` não configura a Copilot CLI standalone
+
+Testado em 2026-08-26 com APM CLI 0.28.0 e Copilot CLI 1.0.80: `apm install --target copilot` mapeia a configuração de MCP para o runtime **`vscode`** internamente (`mcp_target_servers: vscode` no `apm.lock.yaml`), escrevendo em **`.vscode/mcp.json`** — o arquivo lido pela extensão Copilot Chat do VS Code.
+
+A **Copilot CLI de terminal** (`copilot`, instalada via `gh copilot` ou standalone) não lê esse arquivo — ela lê `.mcp.json` ou `.github/mcp.json` na raiz do projeto. Hoje **não existe nenhum valor de `--target`/`--runtime` na APM CLI dedicado a esse arquivo**; `--target copilot-app` e `--target copilot-cowork` recusam MCP (`No selected target supports MCP`). O único runtime que gera `.mcp.json` é `claude`.
+
+Consequência prática: numa squad que usa só a Copilot CLI de terminal (sem o VS Code), `apm install --target copilot` termina sem erro, mas os MCP servers **não ficam disponíveis numa sessão nova do `copilot`** — confirmado via `copilot mcp list`/logs de sessão, que não mostram nenhuma tentativa de conexão aos servers do apm.
+
+**Workaround (não aplicado por padrão, avaliar caso a caso):** `apm install --target copilot,claude` gera tanto `.vscode/mcp.json` quanto `.mcp.json` com os mesmos servers, e a Copilot CLI passa a reconhecê-los. Efeito colateral: também deploya `CLAUDE.md`/`.claude/rules/*.md` no cliente (arquivos do Claude Code, mesmo sem ninguém usando essa CLI ali).
+
+Sem correção upstream conhecida até o momento — reavaliar quando a APM CLI/Microsoft adicionar um runtime dedicado à Copilot CLI standalone.
 
 ## Distribuicao multi-CLI: AGENTS.md como fonte canonica
 
