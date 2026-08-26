@@ -1,0 +1,11 @@
+{
+  "name": "apm-arquitetura",
+  "version": "0.1.0",
+  "description": "Skills, agents, configuracoes de MCP Server e contexto compartilhado da vertical Arquitetura da FabaoCorp",
+  "author": {
+    "name": "FabaoCorp - Vertical Arquitetura",
+    "email": "fabio.alvaro@gmail.com"
+  },
+  "homepage": "https://github.com/slackwarecps/apm-arquitetura",
+  "keywords": ["fabaocorp", "arquitetura", "apm"]
+}

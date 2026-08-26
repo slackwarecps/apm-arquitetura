@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "fabaocorp-arquitetura-docs": {
+      "command": "npx",
+      "args": ["-y", "@fabaocorp/mcp-arquitetura-docs"],
+      "env": {
+        "FABAOCORP_DOCS_SPACE": "ARQUITETURA"
+      }
+    }
+  }
+}
