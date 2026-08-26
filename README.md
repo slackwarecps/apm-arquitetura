@@ -25,32 +25,37 @@ Este projeto não é uma aplicação de negócio: é um pacote de referência e 
 - `.apm/instructions/adr.instructions.md` — template de Architecture Decision Record, aplicado a `docs/adr/**`
 - `skills/backend-sboot-review/SKILL.md` — roda `mvn test`/`mvn verify` num backend Java/Spring Boot e valida cobertura de testes >= 80% via JaCoCo
 
-## Distribuição do MCP remoto
+## Distribuição dos MCPs remotos
 
-O `apm.yml` distribui a configuração do MCP `meu-mcp-remoto` para Claude, Codex, Gemini e Copilot. A configuração atual usa transporte HTTP (streamable) e o endpoint `http://192.168.1.100:3030/mcp`.
+O `apm.yml` distribui a configuração de dois MCPs remotos para Claude, Codex, Gemini e Copilot, ambos via transporte HTTP (streamable):
 
-Esse endereço é privado e usa HTTP: os clientes precisam estar na mesma rede ou conectados à VPN que alcança a VPS. Para acesso pela internet, publique o serviço atrás de um domínio com HTTPS, mantenha o transporte compatível com o servidor e atualize o `url` no `apm.yml`.
+- **`mcp-fabaolocalsvr`** — hospedado na rede privada/VPS da FabaoCorp, endpoint `http://192.168.1.100:3030/mcp`. Esse endereço é privado e usa HTTP: os clientes precisam estar na mesma rede ou conectados à VPN que alcança a VPS. Para acesso pela internet, publique o serviço atrás de um domínio com HTTPS, mantenha o transporte compatível com o servidor e atualize o `url` no `apm.yml`.
+- **`mcp-bank123`** — MCP de backoffice do Bank123, hospedado no Zuplo, endpoint `https://bank123-mcp-backoffice-main-cc44a8d.d2.zuplo.dev/mcp`. Endereço público em HTTPS.
 
-### Pré-requisito: obter e configurar o token
+### Pré-requisito: obter e configurar os tokens
 
-Antes de instalar, obtenha o `MCP_SERVER_TOKEN` com o responsável pela configuração do MCP na VPS. Esse token é obrigatório para o servidor aceitar as requisições autenticadas. Sem ele, os clientes não conseguirão se conectar ao MCP.
+Antes de instalar, obtenha os tokens de cada MCP com o responsável correspondente. Ambos são obrigatórios para os respectivos servidores aceitarem as requisições autenticadas — sem eles, os clientes não conseguirão se conectar:
 
-O token não deve ser colocado diretamente no `apm.yml`, commitado ou compartilhado em logs. Disponibilize-o apenas no ambiente onde o APM será executado:
+- `MCP_SERVER_TOKEN` — token do `mcp-fabaolocalsvr`, obtido com o responsável pela configuração do MCP na VPS.
+- `BANK123_TOKEN` — token do `mcp-bank123`, obtido com o responsável pelo backoffice do Bank123.
+
+Nenhum dos dois deve ser colocado diretamente no `apm.yml`, commitado ou compartilhado em logs. Disponibilize-os apenas no ambiente onde o APM será executado:
 
 ```bash
-export MCP_SERVER_TOKEN='<token-fornecido-pelo-responsavel-do-mcp>'
+export MCP_SERVER_TOKEN='<token-fornecido-pelo-responsavel-do-mcp-fabaolocalsvr>'
+export BANK123_TOKEN='<token-fornecido-pelo-responsavel-do-bank123>'
 apm install
 ```
 
-Em uma VPS, configure essa variável no mecanismo de secrets do serviço que executa o agente (por exemplo, systemd, Docker Compose ou outro gerenciador de secrets) e reinicie o serviço após alterar o token. A variável precisa estar disponível tanto durante a instalação quanto no momento em que o cliente iniciar a conexão, conforme o cliente de IA utilizado.
+Em uma VPS, configure essas variáveis no mecanismo de secrets do serviço que executa o agente (por exemplo, systemd, Docker Compose ou outro gerenciador de secrets) e reinicie o serviço após alterar qualquer token. As variáveis precisam estar disponíveis tanto durante a instalação quanto no momento em que o cliente iniciar a conexão, conforme o cliente de IA utilizado.
 
 Para validar sem escrever arquivos, use:
 
 ```bash
-MCP_SERVER_TOKEN='seu-token' apm install --dry-run
+MCP_SERVER_TOKEN='seu-token' BANK123_TOKEN='seu-token' apm install --dry-run
 ```
 
-Após uma instalação bem-sucedida, versione o `apm.lock.yaml`. O APM distribuirá a configuração nos arquivos nativos de cada cliente; ele não gerencia o processo do MCP, o proxy reverso, o TLS ou o firewall da VPS. Consulte o [guia oficial de instalação de servidores MCP](https://microsoft.github.io/apm/guides/mcp-servers/) para detalhes sobre transportes, targets e credenciais.
+Após uma instalação bem-sucedida, versione o `apm.lock.yaml`. O APM distribuirá a configuração nos arquivos nativos de cada cliente; ele não gerencia o processo dos MCPs, o proxy reverso, o TLS ou o firewall dos servidores. Consulte o [guia oficial de instalação de servidores MCP](https://microsoft.github.io/apm/guides/mcp-servers/) para detalhes sobre transportes, targets e credenciais.
 
 ## Distribuicao multi-CLI: AGENTS.md como fonte canonica
 

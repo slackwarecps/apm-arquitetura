@@ -1,5 +1,5 @@
 name: apm-arquitetura
-version: 1.3.2
+version: 1.3.3
 description: Contexto, regras de arquitetura e ADR da vertical Arquitetura da FabaoCorp para todos os agentes de IA da empresa (multi-CLI)
 author: Arquitetura Fabao-Corp
 
@@ -10,15 +10,23 @@ targets:
   - gemini
   - copilot
 
-# Configuracao do MCP remoto hospedado na rede privada/VPS.
+# Configuracao dos MCPs remotos distribuidos por este apm.
 dependencies:
   mcp:
+    # MCP hospedado na rede privada/VPS da FabaoCorp.
     - name: mcp-fabaolocalsvr
       registry: false
       transport: http
       url: http://192.168.1.100:3030/mcp
       headers:
         Authorization: "Bearer ${MCP_SERVER_TOKEN}"
+    # MCP de backoffice do Bank123, hospedado no Zuplo.
+    - name: mcp-bank123
+      registry: false
+      transport: http
+      url: https://bank123-mcp-backoffice-main-cc44a8d.d2.zuplo.dev/mcp
+      headers:
+        Authorization: "Bearer ${BANK123_TOKEN}"
 
 # Instrucoes que TODOS os agentes da empresa vao herdar: ver .apm/instructions/
 # (migrado de custom_instructions para .apm/instructions/diretrizes-gerais.instructions.md
