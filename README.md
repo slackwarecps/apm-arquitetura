@@ -1,6 +1,8 @@
 # apm-arquitetura
 
-Apm de Arquitetura — contexto e regras compartilhadas da vertical **Arquitetura** da FabaoCorp, distribuidos via **APM CLI** (`apm.yml` + `.apm/instructions/`) para qualquer CLI de IA usada pelas squads (Claude Code, GitHub Copilot CLI, Gemini CLI).
+Pacote de governança e padronização arquitetural da vertical **Arquitetura** da FabaoCorp. Seu objetivo é fornecer contexto, regras e ferramentas compartilhadas para orientar os agentes de IA utilizados pelas squads, independentemente da CLI adotada.
+
+O conteúdo é distribuído via **APM CLI** (`apm.yml` + `.apm/instructions/`) e pode ser consumido por Claude Code, GitHub Copilot CLI, Gemini CLI e outras ferramentas compatíveis.
 
 ## Sobre a FabaoCorp
 
@@ -13,6 +15,8 @@ Empresa com mais de 200 projetos organizados em 4 verticais: Banking, Seguros, F
 - Mobile: Android e iOS nativos
 
 ## O que este apm distribui
+
+Este projeto não é uma aplicação de negócio: é um pacote de referência e governança técnica para padronizar decisões e revisões arquiteturais nos projetos da empresa.
 
 - `apm.yml` — manifesto: metadados do pacote e `scripts` (comandos utilitarios)
 - `.apm/instructions/diretrizes-gerais.instructions.md` — diretrizes gerais de arquitetura (stack, comunicacao entre servicos, contratos, resiliencia, observabilidade), aplicado a `**/*`
@@ -31,4 +35,8 @@ Empresa com mais de 200 projetos organizados em 4 verticais: Banking, Seguros, F
 apm compile --target agents,gemini --clean
 ```
 
-Este apm segue o formato da **APM CLI**, publicado no repositorio https://github.com/slackwarecps/apm-arquitetura, para ser instalado por qualquer squad da empresa independente da CLI de IA que usa.
+Este apm segue o formato da **APM CLI**, para ser instalado por qualquer squad da empresa independentemente da CLI de IA utilizada.
+
+Consulte a [documentação oficial do APM CLI](https://microsoft.github.io/apm/) para conhecer a instalação, os comandos e o funcionamento da ferramenta. O código-fonte e as referências da CLI estão disponíveis no [repositório oficial do APM](https://github.com/microsoft/apm).
+
+Este pacote está publicado no [repositório `slackwarecps/apm-arquitetura`](https://github.com/slackwarecps/apm-arquitetura).
