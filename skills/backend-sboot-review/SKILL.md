@@ -1,5 +1,5 @@
 ---
-name: backend-core-review
+name: backend-sboot-review
 description: Verifica a saúde do backend checando se os testes rodam e se a cobertura de código está acima de 80%.
 ---
 

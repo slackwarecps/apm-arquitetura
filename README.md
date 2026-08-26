@@ -19,7 +19,7 @@ Empresa com mais de 200 projetos organizados em 4 verticais: Banking, Seguros, F
 - `.apm/instructions/lgpd-dados-pessoais.instructions.md` — regra de LGPD: nunca logar CPF/RG/CNPJ/e-mail/telefone em texto claro, sempre mascarar/criptografar antes de logar, aplicado a `**/*.java,**/*.ts,**/*.kt,**/*.swift`
 - `.apm/instructions/revisao-arquitetural.instructions.md` — checklist de revisao arquitetural (acoplamento, contratos de API, resiliencia, observabilidade, seguranca), aplicado a `**/*.java,**/*.ts,**/*.kt,**/*.swift`
 - `.apm/instructions/adr.instructions.md` — template de Architecture Decision Record, aplicado a `docs/adr/**`
-- `skills/backend-core-review/SKILL.md` — roda `mvn test`/`mvn verify` num backend Java/Spring Boot e valida cobertura de testes >= 80% via JaCoCo
+- `skills/backend-sboot-review/SKILL.md` — roda `mvn test`/`mvn verify` num backend Java/Spring Boot e valida cobertura de testes >= 80% via JaCoCo
 
 ## Distribuicao multi-CLI: AGENTS.md como fonte canonica
 
