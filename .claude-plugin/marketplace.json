@@ -1,0 +1,14 @@
+{
+  "name": "apm-arquitetura",
+  "owner": {
+    "name": "FabaoCorp",
+    "email": "fabio.alvaro@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "apm-arquitetura",
+      "source": "./",
+      "description": "Skills, agents, MCP e contexto compartilhado da vertical Arquitetura"
+    }
+  ]
+}
