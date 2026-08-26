@@ -58,17 +58,18 @@ MCP_SERVER_TOKEN='seu-token' BANK123_TOKEN='seu-token' apm install --dry-run
 
 Após uma instalação bem-sucedida, versione o `apm.lock.yaml`. O APM distribuirá a configuração nos arquivos nativos de cada cliente; ele não gerencia o processo dos MCPs, o proxy reverso, o TLS ou o firewall dos servidores. Consulte o [guia oficial de instalação de servidores MCP](https://microsoft.github.io/apm/guides/mcp-servers/) para detalhes sobre transportes, targets e credenciais.
 
-### ⚠️ Limitação conhecida: `--target copilot` não configura a Copilot CLI standalone
+### `--target copilot`: por padrão, serve o Copilot do VS Code — não a Copilot CLI de terminal
 
-Testado em 2026-08-26 com APM CLI 0.28.0 e Copilot CLI 1.0.80: `apm install --target copilot` mapeia a configuração de MCP para o runtime **`vscode`** internamente (`mcp_target_servers: vscode` no `apm.lock.yaml`), escrevendo em **`.vscode/mcp.json`** — o arquivo lido pela extensão Copilot Chat do VS Code.
+Existem duas formas distintas de usar o Copilot como agente de IA, e o `--target copilot` do apm serve só uma delas:
 
-A **Copilot CLI de terminal** (`copilot`, instalada via `gh copilot` ou standalone) não lê esse arquivo — ela lê `.mcp.json` ou `.github/mcp.json` na raiz do projeto. Hoje **não existe nenhum valor de `--target`/`--runtime` na APM CLI dedicado a esse arquivo**; `--target copilot-app` e `--target copilot-cowork` recusam MCP (`No selected target supports MCP`). O único runtime que gera `.mcp.json` é `claude`.
+- **Copilot Chat no VS Code** (a extensão, dentro do editor) — lê `.vscode/mcp.json`. **É esse o alvo padrão do apm-arquitetura** e o suportado oficialmente por este pacote.
+- **Copilot CLI de terminal** (`copilot`, instalada via `gh copilot` ou standalone, rodando fora do VS Code) — lê `.mcp.json` ou `.github/mcp.json` na raiz do projeto.
 
-Consequência prática: numa squad que usa só a Copilot CLI de terminal (sem o VS Code), `apm install --target copilot` termina sem erro, mas os MCP servers **não ficam disponíveis numa sessão nova do `copilot`** — confirmado via `copilot mcp list`/logs de sessão, que não mostram nenhuma tentativa de conexão aos servers do apm.
+Testado em 2026-08-26 com APM CLI 0.28.0: `apm install --target copilot` mapeia a configuração de MCP para o runtime **`vscode`** internamente (`mcp_target_servers: vscode` no `apm.lock.yaml`), escrevendo em `.vscode/mcp.json` — exatamente o comportamento desejado para squads usando o Copilot dentro do VS Code.
 
-**Workaround (não aplicado por padrão, avaliar caso a caso):** `apm install --target copilot,claude` gera tanto `.vscode/mcp.json` quanto `.mcp.json` com os mesmos servers, e a Copilot CLI passa a reconhecê-los. Efeito colateral: também deploya `CLAUDE.md`/`.claude/rules/*.md` no cliente (arquivos do Claude Code, mesmo sem ninguém usando essa CLI ali).
+Se alguém tentar validar a instalação usando a **Copilot CLI de terminal** em vez do VS Code, os MCP servers não vão aparecer numa sessão nova do `copilot` (confirmado via `copilot mcp list`/logs de sessão) — isso não é um erro de instalação, é só um consumidor diferente do arquivo que o apm gera. Hoje não existe (nem é objetivo deste pacote suportar) um `--target`/`--runtime` dedicado à Copilot CLI standalone; `--target copilot-app` e `--target copilot-cowork` recusam MCP (`No selected target supports MCP`).
 
-Sem correção upstream conhecida até o momento — reavaliar quando a APM CLI/Microsoft adicionar um runtime dedicado à Copilot CLI standalone.
+**Recomendação para quem instala este apm:** use a extensão Copilot Chat do VS Code para consumir os MCP servers distribuídos aqui. Não é necessário nenhum flag extra — `apm install --target copilot` (ou `apm update`) já entrega em `.vscode/mcp.json`.
 
 ## Distribuicao multi-CLI: AGENTS.md como fonte canonica
 
