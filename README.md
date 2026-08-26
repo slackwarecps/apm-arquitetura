@@ -17,6 +17,7 @@ Empresa com mais de 200 projetos organizados em 4 verticais: Banking, Seguros, F
 - `apm.yml` — manifesto: `custom_instructions` (regras globais de arquitetura) e `scripts` (comandos utilitarios)
 - `.apm/instructions/revisao-arquitetural.instructions.md` — checklist de revisao arquitetural (acoplamento, contratos de API, resiliencia, observabilidade, seguranca), aplicado a `**/*.java,**/*.ts,**/*.kt,**/*.swift`
 - `.apm/instructions/adr.instructions.md` — template de Architecture Decision Record, aplicado a `docs/adr/**`
+- `skills/backend-core-review/SKILL.md` — roda `mvn test`/`mvn verify` num backend Java/Spring Boot e valida cobertura de testes >= 80% via JaCoCo
 - `CLAUDE.md` — gerado a partir do `apm.yml`/`.apm/` pela APM CLI, para consumo direto pelo Claude Code
 
 ## Distribuicao
