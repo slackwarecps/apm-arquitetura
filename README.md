@@ -24,6 +24,7 @@ Este projeto não é uma aplicação de negócio: é um pacote de referência e 
 - `.apm/instructions/revisao-arquitetural.instructions.md` — checklist de revisao arquitetural (acoplamento, contratos de API, resiliencia, observabilidade, seguranca), aplicado a `**/*.java,**/*.ts,**/*.kt,**/*.swift`
 - `.apm/instructions/adr.instructions.md` — template de Architecture Decision Record, aplicado a `docs/adr/**`
 - `skills/backend-sboot-review/SKILL.md` — roda `mvn test`/`mvn verify` num backend Java/Spring Boot e valida cobertura de testes >= 80% via JaCoCo
+- `.apm/agents/developer-java.agent.md` — agente de desenvolvimento de backend Java/Spring Boot: sempre trabalha em branch `developer` (nunca commita direto em main/master) e exige cobertura de testes >= 85% (JaCoCo) antes de dar a tarefa por concluida
 
 ## Distribuição dos MCPs remotos
 
